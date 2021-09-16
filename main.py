@@ -5,6 +5,7 @@ from discord.utils import get, find
 from Secure import *
 from utils.crawler import *
 from utils.embed import *
+import re
 
 parent_dir = os.path.join(os.path.dirname(__file__), "..")
 sys.path.append(parent_dir)
@@ -33,10 +34,26 @@ async def _ping(ctx):
                 )
 async def reprBOJ(ctx,*args):
     input_args = {'tier':args[0],'tag':args[1]}
-    data, flag = BOJCrawler(input_args)
-    if not flag:
-        await ctx.send(f'잦은 요청으로 전송이 어렵습니다. 해당 링크를 접속하세요 ㅜ\n'+data)
-    else:
-        await ctx.send(embed=embed_print_BOJ(input_args,data,flag))
+    data, flag = BOJCrawler_solvedac(input_args)
+    await ctx.send(embed=embed_print_BOJs(input_args,data,flag))
+    await ctx.message.delete()
+
+
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+    #print(message)
+    if message.channel.id == 883333465720889353:
+        a = re.findall("https://www.acmicpc.net/problem/[0-9]+",message.content)
+        if a:
+            ret = []
+            for url in a:
+                ret.append(BOJcralwer(url))
+            await message.delete()
+            await message.channel.send(embed=embed_print_BOJ(ret,message.author))
+
+
+    await client.process_commands(message)
 
 client.run(token)
