@@ -30,7 +30,7 @@ async def _ping(ctx):
 
 @client.command(
     name="BOJ",
-    brief = "난이도 태그(math, .. , backtraking, bfs, dfs ..)"
+    brief = "난이도(G1~G3) 태그(수학, 다이나믹 프로그래밍, 깊이 우선 탐색, 너비 우선 탐색, 그래프)"
                 )
 async def reprBOJ(ctx,*args):
     input_args = {'tier':args[0],'tag':args[1]}
@@ -44,6 +44,7 @@ async def on_message(message):
     if message.author == client.user:
         return
     #print(message)
+    # 추천문제 채널 문제 정리기
     if message.channel.id == 883333465720889353:
         a = re.findall("https://www.acmicpc.net/problem/[0-9]+",message.content)
         if a:

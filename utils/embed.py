@@ -16,7 +16,7 @@ def embed_print_BOJs(query,data,flag):
     return embed
 
 def embed_print_BOJ(ret,author):
-    title = f'{author.nick} 님의 추천 문제입니다.'
+    title = f'{author.nick or author.name} 님의 추천 문제입니다.'
     embed = Embed(title=title)
     rank_text = '\n'.join(f'{x["rank"]}' for x in ret)
     number_text = '\n'.join(f'[{x["number"]}]({x["url"]})' for x in ret)

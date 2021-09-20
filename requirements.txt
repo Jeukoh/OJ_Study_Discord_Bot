@@ -3,3 +3,4 @@ pynacl==1.4.0
 requests==2.25.1
 beautifulsoup4==4.9.3
 websockets==9.1
+selenium==3.141.0
