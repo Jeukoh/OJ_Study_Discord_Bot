@@ -58,6 +58,7 @@ async def reprBOJ(ctx):
             continue
         if key.lower() in ['문제수','수','limit','num','number']:
             kwargs['limit'] = value
+            continue
     try:
         algoarg_row = kwargs['algo']
         algoarg = load_algo_aliases(algoarg_row, r'Data/algo_aliases.json')
@@ -75,6 +76,9 @@ async def reprBOJ(ctx):
                 low_rank, high_rank = high_rank, low_rank
         else:
             low_rank = high_rank = load_rank_aliases(rank[0], r'Data/rank_aliases.json')
+        if not (low_rank and high_rank):
+            raise Exception
+
     except:
         low_rank = 1
         high_rank = 30
@@ -105,7 +109,6 @@ async def reprBOJ(ctx):
     data = DB.load(algoarg, flag=True, rank_low=low_rank, rank_high=high_rank, limit=limit)
     data.sort(key = lambda x: x[2])
     await ctx.send(embed=embed_print_BOJ_DB(data,algoarg,ctx.message.author))
-    await ctx.message.delete()
 
 @client.command(name="temp")
 async def temp(ctx):
